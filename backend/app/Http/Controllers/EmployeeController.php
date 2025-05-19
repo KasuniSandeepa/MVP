@@ -25,7 +25,18 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:employees,email',
+        'position' => 'required|string',
+        ]);
+
+    $employee = Employee::create($validated);
+
+    return response()->json([
+        'message' => 'Employee created successfully',
+        'data' => $employee,
+    ], 201);
     }
 
     /**
